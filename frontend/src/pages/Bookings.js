@@ -10,6 +10,7 @@ function Bookings() {
     guests: ""
   });
   const [updatedGuests, setUpdatedGuests] = useState({});
+  const [successMessage, setSuccessMessage] = useState(""); // State to hold the success message
 
   useEffect(() => {
     fetchBookings();
@@ -37,6 +38,8 @@ function Bookings() {
       .then(() => {
         fetchBookings();
         setFormData({ user_id: "", trip_id: "", guests: "" }); // Clear form
+        setSuccessMessage("Booking added successfully!"); // Show success message
+        setTimeout(() => setSuccessMessage(""), 3000); // Clear message after 3 seconds
       })
       .catch((error) => console.error("Error adding booking:", error));
   };
@@ -69,6 +72,9 @@ function Bookings() {
   return (
     <div className="bookings-container">
       <h1>Your Bookings</h1>
+
+      {/* Success message */}
+      {successMessage && <div className="success-message">{successMessage}</div>}
 
       {/* Booking Form */}
       <form onSubmit={handleSubmit} className="booking-form">

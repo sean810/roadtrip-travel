@@ -4,8 +4,9 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Trips from "./pages/Trips";
 import Bookings from "./pages/Bookings";
+import SignUp from "./components/SignUp"; // Import SignUp component
+import Login from "./components/Login"; // Import Login component
 import "./styles/App.css";
-
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/bookings" element={<Bookings />} />
+          <Route path="/signup" element={<SignUp />} /> {/* Add SignUp route */}
+          <Route path="/login" element={<Login />} /> {/* Add Login route */}
         </Routes>
       </div>
     </Router>
