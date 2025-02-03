@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_migrate import Migrate
 from flask_cors import CORS
 from config import Config
@@ -14,6 +14,11 @@ app.config.from_object(Config)
 db.init_app(app)
 migrate = Migrate(app, db)
 CORS(app)
+
+# Home route to prevent 404 errors on root URL
+@app.route('/')
+def home():
+    return jsonify({"message": "Welcome to RoadTrip Travel API"})
 
 # Register routes
 app.register_blueprint(user_routes, url_prefix='/users')
