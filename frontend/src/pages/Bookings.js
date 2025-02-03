@@ -9,6 +9,7 @@ function Bookings() {
     trip_id: "",
     guests: ""
   });
+  const [updatedGuests, setUpdatedGuests] = useState({});
 
   useEffect(() => {
     fetchBookings();
@@ -27,31 +28,41 @@ function Bookings() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Prevent empty submission
     if (!formData.user_id || !formData.trip_id || !formData.guests) {
       alert("Please fill in all fields.");
       return;
     }
 
-    axios.post("http://127.0.0.1:5000/api/bookings/", bookingData)
-    .then(response => {
-      console.log("Booking added:", response.data);
-    })
-    .catch(error => {
-      console.error("Error adding booking:", error.response ? error.response.data : error.message);
-    });
-  }
+    axios.post("http://127.0.0.1:5000/bookings/", formData)
+      .then(() => {
+        fetchBookings();
+        setFormData({ user_id: "", trip_id: "", guests: "" }); // Clear form
+      })
+      .catch((error) => console.error("Error adding booking:", error));
+  };
 
-  const handleUpdate = (id, newGuests) => {
-    if (!newGuests) return; // Prevent empty updates
+  const handleGuestChange = (id, value) => {
+    setUpdatedGuests({ ...updatedGuests, [id]: value });
+  };
+
+  const handleUpdate = (id) => {
+    const newGuests = updatedGuests[id];
+    if (!newGuests) {
+      alert("Please enter the number of guests.");
+      return;
+    }
+
     axios.put(`http://127.0.0.1:5000/bookings/${id}`, { guests: newGuests })
-      .then(() => fetchBookings()) // Refresh the list
+      .then(() => {
+        fetchBookings();
+        setUpdatedGuests({ ...updatedGuests, [id]: "" }); // Reset input field
+      })
       .catch((error) => console.error("Error updating booking:", error));
   };
 
   const handleDelete = (id) => {
     axios.delete(`http://127.0.0.1:5000/bookings/${id}`)
-      .then(() => fetchBookings()) // Refresh the list
+      .then(() => fetchBookings())
       .catch((error) => console.error("Error deleting booking:", error));
   };
 
@@ -96,8 +107,10 @@ function Bookings() {
             <input
               type="number"
               placeholder="Update Guests"
-              onBlur={(e) => handleUpdate(booking.id, e.target.value)}
+              value={updatedGuests[booking.id] || ""}
+              onChange={(e) => handleGuestChange(booking.id, e.target.value)}
             />
+            <button onClick={() => handleUpdate(booking.id)}>Update</button>
             <button onClick={() => handleDelete(booking.id)}>Delete</button>
           </li>
         ))}
