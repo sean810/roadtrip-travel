@@ -4,7 +4,7 @@ function Home() {
   return (
     <div>
       <h1>Welcome to RoadTrip Travel</h1>
-      <p>Book your dream trip with us today!</p>
+      <p>Book your dream trip today!</p>
     </div>
   );
 }
