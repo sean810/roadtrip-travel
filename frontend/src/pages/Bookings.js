@@ -26,15 +26,23 @@ function Bookings() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Prevent empty submission
+    if (!formData.user_id || !formData.trip_id || !formData.guests) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
     axios.post("http://127.0.0.1:5000/bookings/", formData)
       .then(() => {
         fetchBookings();  // Refresh the list
-        setFormData({ user_id: "", trip_id: "", guests: "" });
+        setFormData({ user_id: "", trip_id: "", guests: "" }); // Clear form
       })
       .catch((error) => console.error("Error adding booking:", error));
   };
 
   const handleUpdate = (id, newGuests) => {
+    if (!newGuests) return; // Prevent empty updates
     axios.put(`http://127.0.0.1:5000/bookings/${id}`, { guests: newGuests })
       .then(() => fetchBookings()) // Refresh the list
       .catch((error) => console.error("Error updating booking:", error));
@@ -47,11 +55,11 @@ function Bookings() {
   };
 
   return (
-    <div>
+    <div className="bookings-container">
       <h1>Your Bookings</h1>
 
       {/* Booking Form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="booking-form">
         <input
           type="number"
           name="user_id"
@@ -80,21 +88,21 @@ function Bookings() {
       </form>
 
       {/* Booking List */}
-      <ul>
+      <ul className="booking-list">
         {bookings.map((booking) => (
-          <li key={booking.id}>
-            Trip ID: {booking.trip_id} | Guests: {booking.guests} 
+          <li key={booking.id} className="booking-item">
+            <p>Trip ID: {booking.trip_id} | Guests: {booking.guests}</p>
             <input
               type="number"
               placeholder="Update Guests"
-              onChange={(e) => handleUpdate(booking.id, e.target.value)}
+              onBlur={(e) => handleUpdate(booking.id, e.target.value)}
             />
             <button onClick={() => handleDelete(booking.id)}>Delete</button>
           </li>
         ))}
       </ul>
 
-      <Link to="/">Go Back</Link>
+      <Link to="/" className="back-button">Go Back</Link>
     </div>
   );
 }

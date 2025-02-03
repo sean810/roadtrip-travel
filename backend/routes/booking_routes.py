@@ -14,16 +14,25 @@ def get_bookings():
 # POST (Create) a new booking
 @booking_routes.route('/', methods=['POST'])
 def create_booking():
-    data = request.get_json()
-    if not data.get('user_id') or not data.get('trip_id') or not data.get('guests'):
+    data = request.json  # Get JSON data from frontend
+    
+    if not data.get("user_id") or not data.get("trip_id") or not data.get("guests"):
         return jsonify({"error": "Missing required fields"}), 400
     
-    new_booking = Booking(user_id=data['user_id'], trip_id=data['trip_id'], guests=data['guests'])
+    new_booking = Booking(
+        user_id=data["user_id"],
+        trip_id=data["trip_id"],
+        guests=data["guests"]
+    )
+    
     db.session.add(new_booking)
     db.session.commit()
 
-    return jsonify({"message": "Booking created successfully", "booking": {
-        "id": new_booking.id, "user_id": new_booking.user_id, "trip_id": new_booking.trip_id, "guests": new_booking.guests
+    return jsonify({"message": "Booking created!", "booking": {
+        "id": new_booking.id,
+        "user_id": new_booking.user_id,
+        "trip_id": new_booking.trip_id,
+        "guests": new_booking.guests
     }}), 201
 
 # PUT (Update) an existing booking
