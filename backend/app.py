@@ -22,8 +22,8 @@ def home():
 
 # Register routes
 app.register_blueprint(user_routes, url_prefix='/users')
-app.register_blueprint(trip_routes, url_prefix='/trips')
-app.register_blueprint(booking_routes, url_prefix='/bookings')
+app.register_blueprint(trip_routes, url_prefix='/api/trips')
+app.register_blueprint(booking_routes, url_prefix='/api/bookings')
 
 if __name__ == "__main__":
     app.run(debug=True)

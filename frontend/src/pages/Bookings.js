@@ -33,13 +33,14 @@ function Bookings() {
       return;
     }
 
-    axios.post("http://127.0.0.1:5000/bookings/", formData)
-      .then(() => {
-        fetchBookings();  // Refresh the list
-        setFormData({ user_id: "", trip_id: "", guests: "" }); // Clear form
-      })
-      .catch((error) => console.error("Error adding booking:", error));
-  };
+    axios.post("http://127.0.0.1:5000/api/bookings/", bookingData)
+    .then(response => {
+      console.log("Booking added:", response.data);
+    })
+    .catch(error => {
+      console.error("Error adding booking:", error.response ? error.response.data : error.message);
+    });
+  }
 
   const handleUpdate = (id, newGuests) => {
     if (!newGuests) return; // Prevent empty updates
