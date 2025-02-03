@@ -20,13 +20,13 @@ body {
 /* Headings */
 h1 {
     text-align: center;
-    color: #ff6600f1;
+    color: #a703f3f1;
     margin-bottom: 20px;
 }
 
 /* Navbar */
 .navbar {
-    background: #ff6600;
+    background: #8e08e7;
     padding: 15px;
     color: white;
     display: flex;
@@ -63,7 +63,7 @@ button, .go-back {
     width: fit-content;
     margin: 20px auto;
     padding: 10px 15px;
-    background: #ff6600;
+    background: #8400ff;
     color: white;
     font-size: 16px;
     border: none;
@@ -74,7 +74,7 @@ button, .go-back {
 }
 
 button:hover, .go-back:hover {
-    background: #24b300;
+    background: #b3004b;
 }
 
 /* Lists */
@@ -122,13 +122,13 @@ ul li {
     margin: 20px auto;
     text-align: center;
     color: white;
-    background: #ff6600;
+    background: #8c00ff;
     padding: 10px;
     border-radius: 5px;
     text-decoration: none;
   }
   
   .back-button:hover {
-    background: #42b300;
+    background: #b3003c;
   }
   
